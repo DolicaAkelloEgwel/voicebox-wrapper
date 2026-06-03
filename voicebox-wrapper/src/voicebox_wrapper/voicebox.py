@@ -51,22 +51,19 @@ class VoiceBox:
             self._generation_id = response.json()["id"]
         return response
 
-    def _check_generation(self):
-        return requests.get(f"{self._url}/history/{self._generation_id}")
+    def _check_generation(self, generation_id: str):
+        return requests.get(f"{self._url}/history/{generation_id}")
 
-    def generation_complete(self) -> bool:
-        if self._generation_id is None:
-            raise Exception
-        else:
-            response = self._check_generation()
-            if self._success(response):
-                return response.json()["status"] == "completed"
+    def generation_complete(self, generation_id: str) -> bool:
+        response = self._check_generation(generation_id)
+        if self._success(response):
+            return response.json()["status"] == "completed"
 
     def get_audio_path(self):
         response = self._check_generation()
         if self._success(response):
             return response.json()["audio_path"]
 
-    def delete_profile(self) -> requests.Response:
-        response = requests.delete(self._url + PROFILES + self._id)
+    def delete_profile(self, profile_id: str) -> requests.Response:
+        response = requests.delete(self._url + PROFILES + profile_id)
         return response

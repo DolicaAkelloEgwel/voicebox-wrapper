@@ -1,3 +1,4 @@
-from voicebox_wrapper import voicebox
+from .. import voicebox
+import pytest
 
 voicebox.VoiceBox()
