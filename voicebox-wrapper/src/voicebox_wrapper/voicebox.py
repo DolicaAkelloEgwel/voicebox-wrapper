@@ -3,21 +3,20 @@ import uuid
 import requests
 import urllib3
 
+from . import constants
+
 PROFILES = "/profiles/"
 
 
 class VoiceBox:
-    def __init__(self, url: str = "http://127.0.0.1:17493"):
+    def __init__(self, url: str = constants.DEFAULT_URL):
         self._url = url
-        self._id = ""
-        self._generation_id = None
-        self._name = str(uuid.uuid4()).replace("-", "")[:6]
 
-    def _success(self, response) -> int:
+    def _success(self, response: requests.Response) -> bool:
         return response.status_code == 200
 
-    def create_profile(self) -> requests.Response:
-        data = {"name": self._name}
+    def create_profile(self, name: str = str(uuid.uuid4())) -> requests.Response:
+        data = {"name": name}
         response = requests.post(self._url + PROFILES, json=data)
 
         if self._success(response):
