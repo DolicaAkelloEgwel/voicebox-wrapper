@@ -59,7 +59,7 @@ def test_create_profile_appends_list(monkeypatch):
 
     vb = VoiceBox()
     profile = vb.create_profile()
-    assert profile in vb._profiles
+    assert profile in vb.profiles
 
 
 def test_create_profile_failure():

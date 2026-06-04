@@ -17,6 +17,10 @@ class VoiceBox:
         self._url = url
         self._profiles = []
 
+    @property
+    def profiles(self):
+        return self._profiles
+
     def create_profile(self, name: str = str(uuid.uuid4())) -> Profile:
         """_summary_
 
