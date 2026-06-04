@@ -1,9 +1,12 @@
-from .helpers import _success
+import requests
 import urllib3
+
+from .helpers import _success
+
+PROFILES = "/profiles/"
 
 
 class Profile:
-
     def __init__(self, url: str, id: str):
         self._url = url
         self._id = id
@@ -12,9 +15,7 @@ class Profile:
     def id(self):
         return self._id
 
-    def add_voice_sample(
-        self, audio_data, filename: str, transcription: str
-    ):
+    def add_voice_sample(self, audio_data, filename: str, transcription: str):
         body, header = urllib3.encode_multipart_formdata(
             {
                 "file": (filename, audio_data, "audio/wav"),
@@ -29,3 +30,23 @@ class Profile:
         if not _success(response):
             pass
         return response
+
+    def begin_generating_audio(self, text: str):
+        data = {"profile_id": self._id, "text": text}
+        response = requests.post(self._url + "/generate", json=data)
+        if _success(response):
+            self._generation_id = response.json()["id"]
+        return response
+
+    def _check_generation(self, generation_id: str):
+        return requests.get(f"{self._url}/history/{generation_id}")
+
+    def generation_complete(self, generation_id: str) -> bool:
+        response = self._check_generation(generation_id)
+        if _success(response):
+            return response.json()["status"] == "completed"
+
+    def get_audio_path(self):
+        response = self._check_generation()
+        if _success(response):
+            return response.json()["audio_path"]
