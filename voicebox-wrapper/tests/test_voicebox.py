@@ -4,11 +4,9 @@ from src.voicebox_wrapper.voicebox import VoiceBox
 
 
 class MockResponse:
-    status_code = None
-
-    @staticmethod
-    def json():
-        return dict()
+    def __init__(self, code, json):
+        self.status_code = code
+        self.json = lambda: json
 
 
 def test_set_url():
@@ -27,9 +25,7 @@ def test_create_profile_sets_id(monkeypatch):
     profile_id = "a-profile-id"
 
     def mock_post(*args, **kwargs):
-        response = MockResponse()
-        response.status_code = 200
-        response.json = lambda: {"id": profile_id}
+        response = MockResponse(200, {"id": profile_id})
         return response
 
     monkeypatch.setattr(requests, "post", mock_post)
@@ -50,9 +46,7 @@ def test_create_profile_with_default_name():
 
 def test_create_profile_appends_list(monkeypatch):
     def mock_post(*args, **kwargs):
-        response = MockResponse()
-        response.status_code = 200
-        response.json = lambda: {"id": "a-profile-id"}
+        response = MockResponse(200, {"id": "a-profile-id"})
         return response
 
     monkeypatch.setattr(requests, "post", mock_post)
