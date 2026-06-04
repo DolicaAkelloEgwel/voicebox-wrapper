@@ -1,9 +1,8 @@
 import requests
 import urllib3
 
+from .constants import PROFILES
 from .helpers import _success
-
-PROFILES = "/profiles/"
 
 
 class Profile:

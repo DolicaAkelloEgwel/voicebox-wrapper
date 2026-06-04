@@ -6,26 +6,45 @@ from . import constants
 from .helpers import _success
 from .profile import Profile
 
-PROFILES = "/profiles/"
-
 
 class VoiceBox:
     def __init__(self, url: str = constants.DEFAULT_URL):
+        """Creates a VoiceBox object.
+
+        Args:
+            url (str, optional): The URL for the VoiceBox API. Defaults to constants.DEFAULT_URL.
+        """
         self._url = url
         self._profiles = []
 
     def create_profile(self, name: str = str(uuid.uuid4())) -> Profile:
-        data = {"name": name}
-        response = requests.post(self._url + PROFILES, json=data)
+        """_summary_
 
-        if _success(response):
-            profile = Profile(self._url, response.json()["id"])
-            self._profiles.append(profile)
-            return profile
-        else:
+        Args:
+            name (str, optional): _description_. Defaults to str(uuid.uuid4()).
+
+        Raises:
+            Exception: _description_
+
+        Returns:
+            Profile: _description_
+        """
+        data = {"name": name}
+        response = requests.post(self._url + constants.PROFILES, json=data)
+
+        if not _success(response):
             raise Exception
 
+        profile = Profile(self._url, response.json()["id"])
+        self._profiles.append(profile)
+        return profile
+
     def delete_profile(self, profile_id: str):
-        response = requests.delete(self._url + PROFILES + profile_id)
-        if _success(response):
-            pass
+        response = requests.delete(self._url + constants.PROFILES + profile_id)
+        if not _success(response):
+            raise Exception
+
+        for profile in self._profiles:
+            if profile.id == profile_id:
+                self._profiles.remove(profile)
+                return
