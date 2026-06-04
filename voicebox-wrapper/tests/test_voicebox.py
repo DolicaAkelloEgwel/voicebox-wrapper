@@ -58,6 +58,7 @@ def test_create_profile_appends_list(monkeypatch):
     monkeypatch.setattr(requests, "post", mock_post)
 
     vb = VoiceBox()
+    assert len(vb.profiles) == 0
     profile = vb.create_profile()
     assert profile in vb.profiles
 
