@@ -18,13 +18,20 @@ class VoiceBox:
 
     @property
     def profiles(self):
+        """The list of Profile objects."""
         return self._profiles
 
     @property
     def server_url(self) -> str:
+        """The root server URL of the VoiceBox API."""
         return self._server_url
 
     def _build_url(self, *parts) -> str:
+        """_summary_
+
+        Returns:
+            str: _description_
+        """
         return f"{self._server_url}/" + "/".join(parts)
 
     def create_profile(self, name: str = "") -> Profile:
@@ -55,6 +62,7 @@ class VoiceBox:
         return profile
 
     def _delete_profile(self, profile: Profile):
+        # todo - remove
         if profile in self._profiles:
             self._profiles.remove(profile)
         else:
