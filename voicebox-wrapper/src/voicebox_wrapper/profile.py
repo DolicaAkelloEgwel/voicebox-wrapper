@@ -6,13 +6,18 @@ from .helpers import _success
 
 
 class Profile:
-    def __init__(self, url: str, id: str):
+    def __init__(self, url: str, id: str, name: str):
         self._url = url
         self._id = id
+        self._name = name
 
     @property
     def id(self):
         return self._id
+
+    @property
+    def name(self):
+        return self._name
 
     def add_voice_sample(self, audio_data, filename: str, transcription: str):
         body, header = urllib3.encode_multipart_formdata(
