@@ -1,7 +1,26 @@
+from src.voicebox_wrapper.profile import Profile
+
+
 class MockResponse:
     def __init__(self, code, json):
         self.status_code = code
         self.json = lambda: json
+
+
+class MockVoicebox:
+    def __init__(self):
+        pass
+
+
+def test_profile_stores_id_on_init():
+    vb = MockVoicebox()
+    id = "a-profile-id"
+    name = "a-profile-name"
+    profile = Profile(vb, id, name)
+
+    assert profile.id == id
+    assert profile.name == name
+    assert profile._voicebox == vb
 
 
 def test_delete_profile_failure():
