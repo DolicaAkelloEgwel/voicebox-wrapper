@@ -104,6 +104,7 @@ def test_delete_profile_success(mock_requests):
     profile = MockProfile(profile_id_to_delete)
     vb = VoiceBox()
     vb._profiles.append(profile)
+    assert profile in vb.profiles
 
     vb.delete_profile(profile_id_to_delete)
 
@@ -113,5 +114,12 @@ def test_delete_profile_success(mock_requests):
     )
 
 
-def test_delete_profile_failure():
-    pass
+@patch("src.voicebox_wrapper.voicebox.requests")
+def test_delete_profile_failure(mock_requests):
+    mock_requests.delete.return_value = MockResponse(constants.REQUEST_SUCCESS, None)
+
+    vb = VoiceBox()
+    bad_profile_id = "bad-profile-id"
+
+    with pytest.raises(Exception):
+        vb.delete_profile(bad_profile_id)
