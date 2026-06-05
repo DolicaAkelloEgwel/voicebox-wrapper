@@ -116,7 +116,7 @@ def test_delete_profile_success(mock_requests):
 
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_delete_profile_failure(mock_requests):
-    mock_requests.delete.return_value = MockResponse(constants.REQUEST_SUCCESS, None)
+    mock_requests.delete.return_value = MockResponse(0, None)
 
     vb = VoiceBox()
     bad_profile_id = "bad-profile-id"
