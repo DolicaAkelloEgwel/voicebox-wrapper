@@ -20,6 +20,10 @@ class VoiceBox:
     def profiles(self):
         return self._profiles
 
+    @property
+    def url(self) -> str:
+        return self._url
+
     def create_profile(self, name: str = "") -> Profile:
         """_summary_
 
@@ -41,11 +45,11 @@ class VoiceBox:
         if not _success(response):
             raise Exception
 
-        profile = Profile(self._url, response.json()["id"], name)
+        profile = Profile(self, response.json()["id"], name)
         self._profiles.append(profile)
         return profile
 
-    def delete_profile(self, profile_id: str):
+    def _delete_profile(self, profile_id: str):
         response = requests.delete(self._url + constants.PROFILES + profile_id)
         if not _success(response):
             raise Exception

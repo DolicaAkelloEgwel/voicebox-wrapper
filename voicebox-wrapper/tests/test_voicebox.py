@@ -106,7 +106,7 @@ def test_delete_profile_success(mock_requests):
     vb._profiles.append(profile)
     assert profile in vb.profiles
 
-    vb.delete_profile(profile_id_to_delete)
+    vb._delete_profile(profile_id_to_delete)
 
     assert profile not in vb.profiles
     mock_requests.delete.assert_called_with(
@@ -122,4 +122,4 @@ def test_delete_profile_failure(mock_requests):
     bad_profile_id = "bad-profile-id"
 
     with pytest.raises(Exception):
-        vb.delete_profile(bad_profile_id)
+        vb._delete_profile(bad_profile_id)
