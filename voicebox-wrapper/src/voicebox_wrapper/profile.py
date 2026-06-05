@@ -53,3 +53,9 @@ class Profile:
         response = self._check_generation()
         if _success(response):
             return response.json()["audio_path"]
+
+    def delete(self):
+        response = requests.delete(self.voicebox.url + PROFILES + self.id)
+        if not _success(response):
+            raise Exception
+        self.voicebox._delete_profile(self.id)

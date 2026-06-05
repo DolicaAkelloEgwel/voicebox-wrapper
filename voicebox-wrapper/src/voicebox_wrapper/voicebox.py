@@ -50,11 +50,8 @@ class VoiceBox:
         return profile
 
     def _delete_profile(self, profile_id: str):
-        response = requests.delete(self._url + constants.PROFILES + profile_id)
-        if not _success(response):
-            raise Exception
-
         for profile in self._profiles:
             if profile.id == profile_id:
                 self._profiles.remove(profile)
                 return
+        raise Exception
