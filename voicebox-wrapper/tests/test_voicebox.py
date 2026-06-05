@@ -36,8 +36,20 @@ def test_create_profile_sets_id(monkeypatch):
     assert profile.id == profile_id
 
 
-def test_create_profile_with_custom_name():
-    pass
+def test_create_profile_with_custom_name(monkeypatch):
+
+    custom_profile_name = "custom-profile-name"
+
+    def mock_post(*args, **kwargs):
+        response = MockResponse(200, {"id": "a-profile-id"})
+        return response
+
+    monkeypatch.setattr(requests, "post", mock_post)
+
+    vb = VoiceBox()
+    profile = vb.create_profile(custom_profile_name)
+
+    assert profile.name == custom_profile_name
 
 
 def test_create_profile_with_default_name():
