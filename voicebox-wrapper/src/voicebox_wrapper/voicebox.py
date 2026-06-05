@@ -25,7 +25,7 @@ class VoiceBox:
         return self._server_url
 
     def _build_url(self, *parts) -> str:
-        return self._server_url + "/".join(parts)
+        return f"{self._server_url}/" + "/".join(parts)
 
     def create_profile(self, name: str = "") -> Profile:
         """_summary_
