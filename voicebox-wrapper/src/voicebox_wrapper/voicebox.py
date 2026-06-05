@@ -1,10 +1,9 @@
 import uuid
 
 import requests
-
-from . import constants
-from .helpers import _success
-from .profile import Profile
+from src.voicebox_wrapper import constants
+from src.voicebox_wrapper.helpers import _success
+from src.voicebox_wrapper.profile import Profile
 
 
 class VoiceBox:
