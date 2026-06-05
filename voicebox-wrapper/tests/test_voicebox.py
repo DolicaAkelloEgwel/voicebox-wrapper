@@ -27,6 +27,12 @@ def test_default_url():
     assert vb.server_url == constants.DEFAULT_URL
 
 
+def test_build_url():
+    vb = VoiceBox()
+    parts = "something/something/something"
+    assert vb._build_url(*parts.split("/")) == f"{vb.server_url}/" + parts
+
+
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_create_profile_sets_id(mock_requests):
     profile_id = "a-profile-id"
@@ -53,7 +59,7 @@ def test_create_profile_with_custom_name(mock_requests):
 
     assert profile.name == custom_profile_name
     mock_requests.post.assert_called_with(
-        f"{vb.server_url}/{constants.Endpoints.PROFILES}",
+        vb._build_url(constants.Endpoints.PROFILES),
         json={"name": custom_profile_name},
     )
 
@@ -71,7 +77,7 @@ def test_create_profile_with_default_name(mock_uuid, mock_requests):
 
     assert profile.name == default_name
     mock_requests.post.assert_called_with(
-        f"{vb.server_url}/{constants.Endpoints.PROFILES}", json={"name": default_name}
+        vb._build_url(constants.Endpoints.PROFILES), json={"name": default_name}
     )
 
 
