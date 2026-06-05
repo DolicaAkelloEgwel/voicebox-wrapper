@@ -24,7 +24,9 @@ def test_default_url():
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_create_profile_sets_id(mock_requests):
     profile_id = "a-profile-id"
-    mock_requests.post.return_value = MockResponse(200, {"id": profile_id})
+    mock_requests.post.return_value = MockResponse(
+        constants.REQUEST_SUCCESS, {"id": profile_id}
+    )
 
     vb = VoiceBox()
     profile = vb.create_profile()
@@ -36,7 +38,9 @@ def test_create_profile_sets_id(mock_requests):
 def test_create_profile_with_custom_name(mock_requests):
     custom_profile_name = "custom-profile-name"
 
-    mock_requests.post.return_value = MockResponse(200, {"id": "profile-id"})
+    mock_requests.post.return_value = MockResponse(
+        constants.REQUEST_SUCCESS, {"id": "profile-id"}
+    )
 
     vb = VoiceBox()
     profile = vb.create_profile(custom_profile_name)
@@ -50,7 +54,9 @@ def test_create_profile_with_custom_name(mock_requests):
 @patch("src.voicebox_wrapper.voicebox.requests")
 @patch("src.voicebox_wrapper.voicebox.uuid")
 def test_create_profile_with_default_name(mock_uuid, mock_requests):
-    mock_requests.post.return_value = MockResponse(200, {"id": "profile-id"})
+    mock_requests.post.return_value = MockResponse(
+        constants.REQUEST_SUCCESS, {"id": "profile-id"}
+    )
     mock_uuid.uuid4.return_value = default_name = "a-uuid-name"
 
     vb = VoiceBox()
@@ -64,7 +70,9 @@ def test_create_profile_with_default_name(mock_uuid, mock_requests):
 
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_create_profile_appends_list(mock_requests):
-    mock_requests.post.return_value = MockResponse(200, {"id": "profile-id"})
+    mock_requests.post.return_value = MockResponse(
+        constants.REQUEST_SUCCESS, {"id": "profile-id"}
+    )
 
     vb = VoiceBox()
     assert len(vb.profiles) == 0
