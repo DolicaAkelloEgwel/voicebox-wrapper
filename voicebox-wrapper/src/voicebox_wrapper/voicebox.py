@@ -49,9 +49,8 @@ class VoiceBox:
         self._profiles.append(profile)
         return profile
 
-    def _delete_profile(self, profile_id: str):
-        for profile in self._profiles:
-            if profile.id == profile_id:
-                self._profiles.remove(profile)
-                return
-        raise Exception
+    def _delete_profile(self, profile: Profile):
+        if profile in self._profiles:
+            self._profiles.remove(profile)
+        else:
+            raise Exception

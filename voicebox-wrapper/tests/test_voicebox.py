@@ -98,21 +98,20 @@ def test_create_profile_failure(mock_requests):
 
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_delete_profile_success(mock_requests):
-    profile_id_to_delete = "profile-id-to-delete"
-    profile = MockProfile(profile_id_to_delete)
+    profile_to_delete = MockProfile("a-profile-id")
     vb = VoiceBox()
 
-    vb._profiles.append(profile)
-    assert profile in vb.profiles
+    vb._profiles.append(profile_to_delete)
+    assert profile_to_delete in vb.profiles
 
-    vb._delete_profile(profile_id_to_delete)
-    assert profile not in vb.profiles
+    vb._delete_profile(profile_to_delete)
+    assert profile_to_delete not in vb.profiles
 
 
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_delete_profile_failure(mock_requests):
     vb = VoiceBox()
-    bad_profile_id = "bad-profile-id"
+    bad_profile = MockProfile("a-profile-id")
 
     with pytest.raises(Exception):
-        vb._delete_profile(bad_profile_id)
+        vb._delete_profile(bad_profile)
