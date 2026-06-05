@@ -7,13 +7,13 @@ from src.voicebox_wrapper.profile import Profile
 
 
 class VoiceBox:
-    def __init__(self, url: str = constants.DEFAULT_URL):
+    def __init__(self, server_url: str = constants.DEFAULT_URL):
         """Creates a VoiceBox object.
 
         Args:
-            url (str, optional): The URL for the VoiceBox API. Defaults to constants.DEFAULT_URL.
+            server_url (str, optional): The URL for the VoiceBox API. Defaults to constants.DEFAULT_URL.
         """
-        self._url = url
+        self._server_url = server_url
         self._profiles = []
 
     @property
@@ -21,8 +21,11 @@ class VoiceBox:
         return self._profiles
 
     @property
-    def url(self) -> str:
-        return self._url
+    def server_url(self) -> str:
+        return self._server_url
+
+    def build_url(self):
+        return self._server_url
 
     def create_profile(self, name: str = "") -> Profile:
         """_summary_
@@ -40,7 +43,7 @@ class VoiceBox:
             name = str(uuid.uuid4())
 
         data = {"name": name}
-        response = requests.post(self._url + constants.PROFILES, json=data)
+        response = requests.post(self._server_url + constants.PROFILES, json=data)
 
         if not _success(response):
             raise Exception

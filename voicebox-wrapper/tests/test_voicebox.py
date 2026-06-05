@@ -19,12 +19,12 @@ class MockProfile:
 def test_set_url():
     url = "http://127.0.0.1:55555"
     vb = VoiceBox(url)
-    assert vb._url == url
+    assert vb.server_url == url
 
 
 def test_default_url():
     vb = VoiceBox()
-    assert vb._url == constants.DEFAULT_URL
+    assert vb.server_url == constants.DEFAULT_URL
 
 
 @patch("src.voicebox_wrapper.voicebox.requests")
@@ -53,7 +53,7 @@ def test_create_profile_with_custom_name(mock_requests):
 
     assert profile.name == custom_profile_name
     mock_requests.post.assert_called_with(
-        vb._url + constants.PROFILES, json={"name": custom_profile_name}
+        vb.server_url + constants.PROFILES, json={"name": custom_profile_name}
     )
 
 
@@ -70,7 +70,7 @@ def test_create_profile_with_default_name(mock_uuid, mock_requests):
 
     assert profile.name == default_name
     mock_requests.post.assert_called_with(
-        vb._url + constants.PROFILES, json={"name": default_name}
+        vb.server_url + constants.PROFILES, json={"name": default_name}
     )
 
 
