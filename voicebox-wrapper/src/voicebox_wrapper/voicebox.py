@@ -21,7 +21,7 @@ class VoiceBox:
     def profiles(self):
         return self._profiles
 
-    def create_profile(self, name: str = str(uuid.uuid4())) -> Profile:
+    def create_profile(self, name: str = "") -> Profile:
         """_summary_
 
         Args:
@@ -33,13 +33,16 @@ class VoiceBox:
         Returns:
             Profile: _description_
         """
+        if not name:
+            name = str(uuid.uuid4())
+
         data = {"name": name}
         response = requests.post(self._url + constants.PROFILES, json=data)
 
         if not _success(response):
             raise Exception
 
-        profile = Profile(self._url, response.json()["id"])
+        profile = Profile(self._url, response.json()["id"], name)
         self._profiles.append(profile)
         return profile
 
