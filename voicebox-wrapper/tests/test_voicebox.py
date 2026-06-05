@@ -53,7 +53,7 @@ def test_create_profile_with_custom_name(mock_requests):
 
     assert profile.name == custom_profile_name
     mock_requests.post.assert_called_with(
-        vb.server_url + constants.PROFILES, json={"name": custom_profile_name}
+        vb.server_url + constants.Endpoints.PROFILES, json={"name": custom_profile_name}
     )
 
 
@@ -70,7 +70,7 @@ def test_create_profile_with_default_name(mock_uuid, mock_requests):
 
     assert profile.name == default_name
     mock_requests.post.assert_called_with(
-        vb.server_url + constants.PROFILES, json={"name": default_name}
+        vb.server_url + constants.Endpoints.PROFILES, json={"name": default_name}
     )
 
 
