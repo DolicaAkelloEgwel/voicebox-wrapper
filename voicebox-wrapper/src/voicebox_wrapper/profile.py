@@ -25,8 +25,9 @@ class Profile:
                 "reference_text": transcription,
             }
         )
+
         response = requests.post(
-            f"{self.voicebox.url}{Endpoints.PROFILES}{self._id}/samples",
+            self._voicebox._build_url(Endpoints.PROFILES, self._id, Endpoints.SAMPLES),
             data=body,
             headers={"content-type": header},
         )
