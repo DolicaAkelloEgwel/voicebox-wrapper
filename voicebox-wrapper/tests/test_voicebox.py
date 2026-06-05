@@ -24,11 +24,10 @@ def test_default_url():
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_create_profile_sets_id(mock_requests):
     profile_id = "a-profile-id"
-
     mock_requests.post.return_value = MockResponse(200, {"id": profile_id})
 
     vb = VoiceBox()
-    profile = vb.create_profile("a-profile-name")
+    profile = vb.create_profile()
 
     assert profile.id == profile_id
 
@@ -48,8 +47,19 @@ def test_create_profile_with_custom_name(mock_requests):
     )
 
 
-def test_create_profile_with_default_name():
-    pass
+@patch("src.voicebox_wrapper.voicebox.requests")
+@patch("src.voicebox_wrapper.voicebox.uuid")
+def test_create_profile_with_default_name(mock_uuid, mock_requests):
+    mock_requests.post.return_value = MockResponse(200, {"id": "profile-id"})
+    mock_uuid.uuid4.return_value = default_name = "a-uuid-name"
+
+    vb = VoiceBox()
+    profile = vb.create_profile()
+
+    assert profile.name == default_name
+    mock_requests.post.assert_called_with(
+        vb._url + constants.PROFILES, json={"name": default_name}
+    )
 
 
 @patch("src.voicebox_wrapper.voicebox.requests")
