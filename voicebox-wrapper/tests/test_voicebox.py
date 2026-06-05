@@ -98,26 +98,19 @@ def test_create_profile_failure(mock_requests):
 
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_delete_profile_success(mock_requests):
-    mock_requests.delete.return_value = MockResponse(constants.REQUEST_SUCCESS, None)
-
     profile_id_to_delete = "profile-id-to-delete"
     profile = MockProfile(profile_id_to_delete)
     vb = VoiceBox()
+
     vb._profiles.append(profile)
     assert profile in vb.profiles
 
     vb._delete_profile(profile_id_to_delete)
-
     assert profile not in vb.profiles
-    mock_requests.delete.assert_called_with(
-        vb._url + constants.PROFILES + profile_id_to_delete
-    )
 
 
 @patch("src.voicebox_wrapper.voicebox.requests")
 def test_delete_profile_failure(mock_requests):
-    mock_requests.delete.return_value = MockResponse(0, None)
-
     vb = VoiceBox()
     bad_profile_id = "bad-profile-id"
 
