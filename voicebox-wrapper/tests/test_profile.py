@@ -23,6 +23,18 @@ def test_profile_stores_id_on_init():
     assert profile._voicebox == vb
 
 
+def test_add_voice_sample_success():
+    pass
+
+
+def test_add_voice_sample_failure():
+    pass
+
+
+def test_delete_profile_success():
+    pass
+
+
 def test_delete_profile_failure():
     pass
     # mock_requests.delete.return_value = MockResponse(constants.REQUEST_SUCCESS, None)
@@ -39,7 +51,3 @@ def test_delete_profile_failure():
     # mock_requests.delete.assert_called_with(
     #     vb._url + constants.PROFILES + profile_id_to_delete
     # )
-
-
-def test_delete_profile_success():
-    pass
