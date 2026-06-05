@@ -1,6 +1,6 @@
 import requests
 import urllib3
-from src.voicebox_wrapper.constants import PROFILES
+from src.voicebox_wrapper.constants import Endpoints
 from src.voicebox_wrapper.helpers import _success
 
 
@@ -26,7 +26,7 @@ class Profile:
             }
         )
         response = requests.post(
-            f"{self.voicebox.url}{PROFILES}{self._id}/samples",
+            f"{self.voicebox.url}{Endpoints.PROFILES}{self._id}/samples",
             data=body,
             headers={"content-type": header},
         )
@@ -55,7 +55,7 @@ class Profile:
             return response.json()["audio_path"]
 
     def delete(self):
-        response = requests.delete(self.voicebox.url + PROFILES + self._id)
+        response = requests.delete(self.voicebox.url + Endpoints.PROFILES + self._id)
         if not _success(response):
             raise Exception
         self.voicebox._delete_profile(self._id)

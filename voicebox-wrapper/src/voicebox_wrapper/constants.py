@@ -1,5 +1,8 @@
 DEFAULT_URL = "http://127.0.0.1:17493"
 
-PROFILES = "/profiles/"
+
+class Endpoints:
+    PROFILES = "profiles"
+
 
 REQUEST_SUCCESS = 200

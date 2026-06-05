@@ -24,8 +24,8 @@ class VoiceBox:
     def server_url(self) -> str:
         return self._server_url
 
-    def build_url(self):
-        return self._server_url
+    def _build_url(self, *parts) -> str:
+        return self._server_url + "/".join(parts)
 
     def create_profile(self, name: str = "") -> Profile:
         """_summary_
@@ -43,7 +43,9 @@ class VoiceBox:
             name = str(uuid.uuid4())
 
         data = {"name": name}
-        response = requests.post(self._server_url + constants.PROFILES, json=data)
+        response = requests.post(
+            self._build_url(constants.Endpoints.PROFILES), json=data
+        )
 
         if not _success(response):
             raise Exception
